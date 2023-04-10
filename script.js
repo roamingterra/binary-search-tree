@@ -22,23 +22,27 @@ function Node(value = null, left = null, right = null) {
 
 // TREE FACTORY FUNCTION
 function Tree(arr) {
+  // METHOD THAT BUILDS A BALANCED, BINARY SEARCH TREE FROM A GIVEN ARRAY OF DATA
+  function buildTree(arr, start, end) {
+    // Base case
+    if (start > end) return null;
+    // Set the middle of array as the root
+    const middle = Math.floor((start + end) / 2);
+    const node = Node(arr[middle]);
+    // Recursively get middle of left half of array and make it the left child of the root
+    node.left = buildTree(arr, start, middle - 1);
+    // Recursively get middle of right half of array and make it the right child of the root
+    node.right = buildTree(arr, middle + 1, end);
+    return node;
+  }
   const sortedArr = mergeSort(removeDuplicates(arr));
   const root = buildTree(sortedArr, 0, sortedArr.length - 1);
-  console.log(prettyPrint(root));
-}
 
-// FUNCTION THAT BUILDS A BALANCED, BINARY SEARCH TREE FROM A GIVEN ARRAY OF DATA
-function buildTree(arr, start, end) {
-  // Base case
-  if (start > end) return null;
-  // Set the middle of array as the root
-  const middle = Math.floor((start + end) / 2);
-  const node = Node(arr[middle]);
-  // Recursively get middle of left half of array and make it the left child of the root
-  node.left = buildTree(arr, start, middle - 1);
-  // Recursively get middle of right half of array and make it the right child of the root
-  node.right = buildTree(arr, middle + 1, end);
-  return node;
+  return {
+    root: root,
+    insert: function (value) {},
+    delete: function (value) {},
+  };
 }
 
 function removeDuplicates(arr) {
@@ -89,4 +93,5 @@ function mergeSort(arr) {
 
 // TEST BINARY SEARCH TREE
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-Tree(arr);
+const tree1 = Tree(arr);
+console.log(prettyPrint(tree1.root));
