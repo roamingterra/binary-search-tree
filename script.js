@@ -2,12 +2,12 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
   }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  if (node.rightNode !== null) {
+    prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
   console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  if (node.leftNode !== null) {
+    prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
 
@@ -30,17 +30,51 @@ function Tree(arr) {
     const middle = Math.floor((start + end) / 2);
     const node = Node(arr[middle]);
     // Recursively get middle of left half of array and make it the left child of the root
-    node.left = buildTree(arr, start, middle - 1);
+    node.leftNode = buildTree(arr, start, middle - 1);
     // Recursively get middle of right half of array and make it the right child of the root
-    node.right = buildTree(arr, middle + 1, end);
+    node.rightNode = buildTree(arr, middle + 1, end);
     return node;
   }
   const sortedArr = mergeSort(removeDuplicates(arr));
-  const root = buildTree(sortedArr, 0, sortedArr.length - 1);
+  const root = buildTree(sortedArr, 0, sortedArr.length - 1)
+    ? buildTree(sortedArr, 0, sortedArr.length - 1)
+    : null;
 
   return {
     root: root,
-    insert: function (value) {},
+    insert: function (value) {
+      let currentNode = this.root;
+      if (this.root === null) {
+        this.root = Node(value);
+        return this.root;
+      }
+      if (arr.find((element) => element === value)) {
+        console.log("Already exists in Binary Tree");
+        return root;
+      } else {
+        const searchTree = function (currentNode) {
+          // Base case 1
+          if (value < currentNode.data && !currentNode.leftNode) {
+            currentNode.leftNode = Node(value);
+            return root;
+          }
+          // Base case 2
+          if (value > currentNode.data && !currentNode.rightNode) {
+            currentNode.rightNode = Node(value);
+            return root;
+          }
+          // Recursive case 1
+          if (value < currentNode.data && currentNode.leftNode) {
+            return searchTree(currentNode.leftNode);
+          }
+          // Recursive case 2
+          if (value > currentNode.data && currentNode.rightNode) {
+            return searchTree(currentNode.rightNode);
+          }
+        };
+        searchTree(currentNode);
+      }
+    },
     delete: function (value) {},
   };
 }
@@ -94,4 +128,7 @@ function mergeSort(arr) {
 // TEST BINARY SEARCH TREE
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree1 = Tree(arr);
+console.log(prettyPrint(tree1.root));
+
+tree1.insert(100);
 console.log(prettyPrint(tree1.root));
