@@ -128,6 +128,31 @@ function Tree(arr) {
       const result = searchTree(node);
       return result;
     },
+
+    levelOrder: function (func) {
+      if (this.root === null) return null;
+      let currentNode = this.root;
+      const results = [];
+      const queue = [];
+      queue.push(currentNode);
+      while (queue.length) {
+        // Add children of node at the top of the queue to the queue
+        if (queue[0].leftNode) {
+          let newNode = queue[0].leftNode;
+          queue.push(newNode);
+        }
+        if (queue[0].rightNode) {
+          let newNode = queue[0].rightNode;
+          queue.push(newNode);
+        }
+        // Pass first node of queue to func
+        if (func) results.push(func(queue[0]));
+        else results.push(queue[0].data);
+        // remove first node from queue
+        queue.shift();
+      }
+      return results;
+    },
   };
 }
 
@@ -203,3 +228,10 @@ tree1.delete(324);
 console.log(prettyPrint(tree1.root));
 
 console.log(tree1.find(7));
+
+console.log(
+  tree1.levelOrder(function (node) {
+    if (node.data > 10) return true;
+    else return false;
+  })
+);
