@@ -208,6 +208,23 @@ function Tree(arr) {
       postOrderTraversal(currentNode);
       return results;
     },
+
+    height: function (node) {
+      if (node === null) return null;
+      let height = 0;
+      let currentNode = node;
+
+      while (currentNode.leftNode || currentNode.rightNode) {
+        if (currentNode.leftNode) {
+          currentNode = currentNode.leftNode;
+        } else if (currentNode.rightNode) {
+          currentNode = currentNode.rightNode;
+        }
+        height++;
+      }
+
+      return height;
+    },
   };
 }
 
@@ -284,30 +301,33 @@ console.log(prettyPrint(tree1.root));
 
 console.log(tree1.find(7));
 
-console.log(
-  tree1.levelOrder(function (node) {
-    if (node.data > 10) return true;
-    else return false;
-  })
-);
+// console.log(
+//   tree1.levelOrder(function (node) {
+//     if (node.data > 10) return true;
+//     else return false;
+//   })
+// );
 
-console.log(
-  tree1.preorder(function (node) {
-    if (node.data > 0) return node.data;
-    else return false;
-  })
-);
+// console.log(
+//   tree1.preorder(function (node) {
+//     if (node.data > 0) return node.data;
+//     else return false;
+//   })
+// );
 
-console.log(
-  tree1.inorder(function (node) {
-    if (node.data > 0) return node.data;
-    else return false;
-  })
-);
+// console.log(
+//   tree1.inorder(function (node) {
+//     if (node.data > 0) return node.data;
+//     else return false;
+//   })
+// );
 
-console.log(
-  tree1.postorder(function (node) {
-    if (node.data > 0) return node.data;
-    else return false;
-  })
-);
+// console.log(
+//   tree1.postorder(function (node) {
+//     if (node.data > 0) return node.data;
+//     else return false;
+//   })
+// );
+// console.log(tree1.find(0));
+
+console.log(tree1.height(tree1.find(4)));
