@@ -153,6 +153,61 @@ function Tree(arr) {
       }
       return results;
     },
+
+    preorder: function (func) {
+      if (this.root === null) return null;
+      let currentNode = this.root;
+      const results = [];
+
+      const preOrderTraversal = function (currentNode) {
+        // Base condition
+        if (currentNode === null) return;
+        // Touch current node
+        results.push(func(currentNode));
+        // Recursive conditions
+        preOrderTraversal(currentNode.leftNode);
+        preOrderTraversal(currentNode.rightNode);
+      };
+      preOrderTraversal(currentNode);
+      return results;
+    },
+
+    inorder: function (func) {
+      if (this.root === null) return null;
+      let currentNode = this.root;
+      const results = [];
+
+      const inOrderTraversal = function (currentNode) {
+        // Base condition
+        if (currentNode === null) return;
+        // Recursive condition1
+        inOrderTraversal(currentNode.leftNode);
+        // Touch current node
+        results.push(func(currentNode));
+        // Recursive condition2
+        inOrderTraversal(currentNode.rightNode);
+      };
+      inOrderTraversal(currentNode);
+      return results;
+    },
+
+    postorder: function (func) {
+      if (this.root === null) return null;
+      let currentNode = this.root;
+      const results = [];
+
+      const postOrderTraversal = function (currentNode) {
+        // Base condition
+        if (currentNode === null) return;
+        // Recursive conditions
+        postOrderTraversal(currentNode.leftNode);
+        postOrderTraversal(currentNode.rightNode);
+        // Touch current node
+        results.push(func(currentNode));
+      };
+      postOrderTraversal(currentNode);
+      return results;
+    },
   };
 }
 
@@ -232,6 +287,27 @@ console.log(tree1.find(7));
 console.log(
   tree1.levelOrder(function (node) {
     if (node.data > 10) return true;
+    else return false;
+  })
+);
+
+console.log(
+  tree1.preorder(function (node) {
+    if (node.data > 0) return node.data;
+    else return false;
+  })
+);
+
+console.log(
+  tree1.inorder(function (node) {
+    if (node.data > 0) return node.data;
+    else return false;
+  })
+);
+
+console.log(
+  tree1.postorder(function (node) {
+    if (node.data > 0) return node.data;
     else return false;
   })
 );
