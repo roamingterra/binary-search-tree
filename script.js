@@ -103,6 +103,31 @@ function Tree(arr) {
       };
       this.root = deleteRecursively(this.root, value);
     },
+    find: function (value) {
+      let node = this.root;
+      const searchTree = function (currentNode) {
+        // Base case
+        if (currentNode.data === value) {
+          return currentNode;
+        }
+        // Recursive case
+        if (value > currentNode.data) {
+          if (!currentNode.rightNode) {
+            console.log("Cannot be found");
+            return null;
+          }
+          return searchTree(currentNode.rightNode);
+        } else if (value < currentNode.data) {
+          if (!currentNode.leftNode) {
+            console.log("Cannot be found");
+            return null;
+          }
+          return searchTree(currentNode.leftNode);
+        }
+      };
+      const result = searchTree(node);
+      return result;
+    },
   };
 }
 
@@ -176,3 +201,5 @@ console.log(prettyPrint(tree1.root));
 
 tree1.delete(324);
 console.log(prettyPrint(tree1.root));
+
+console.log(tree1.find(7));
