@@ -1,16 +1,3 @@
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.rightNode !== null) {
-    prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.leftNode !== null) {
-    prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
 // NODE FACTORY FUNCTION
 function Node(value = null, left = null, right = null) {
   return {
@@ -75,7 +62,47 @@ function Tree(arr) {
         searchTree(currentNode);
       }
     },
-    delete: function (value) {},
+    delete: function (value) {
+      let currentNode = this.root;
+      const minValue = function (node) {
+        let minValue = node.data;
+        while (node.leftNode !== null) {
+          minValue = node.leftNode.data;
+          node = node.leftNode;
+        }
+        return minValue;
+      };
+      const deleteRecursively = function (currentNode, value) {
+        // Base case: node not found
+        if (currentNode === null) return currentNode;
+        if (value < currentNode.data) {
+          currentNode.leftNode = deleteRecursively(currentNode.leftNode, value);
+        } else if (value > currentNode.data) {
+          currentNode.rightNode = deleteRecursively(
+            currentNode.rightNode,
+            value
+          );
+        } else {
+          // Node to be deleted found
+          // Case 1: Node with only one child or no child
+          if (currentNode.leftNode === null) {
+            return currentNode.rightNode;
+          } else if (currentNode.rightNode === null) {
+            return currentNode.leftNode;
+          }
+          // Case 2: Node with two children
+          // Get the inorder successor (smallest in the right subtree)
+          currentNode.data = minValue(currentNode.rightNode);
+          // Delete the inorder successor
+          currentNode.rightNode = deleteRecursively(
+            currentNode.rightNode,
+            currentNode.data
+          );
+        }
+        return currentNode;
+      };
+      this.root = deleteRecursively(this.root, value);
+    },
   };
 }
 
@@ -125,10 +152,27 @@ function mergeSort(arr) {
   }
 }
 
+// FUNCTION TO PRINT THE TREE TO THE SCREEN
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.rightNode !== null) {
+    prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  if (node.leftNode !== null) {
+    prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
+
 // TEST BINARY SEARCH TREE
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const tree1 = Tree(arr);
 console.log(prettyPrint(tree1.root));
 
 tree1.insert(100);
+console.log(prettyPrint(tree1.root));
+
+tree1.delete(324);
 console.log(prettyPrint(tree1.root));
