@@ -262,6 +262,17 @@ function Tree(arr) {
       };
       return treeTraversal(currentNode);
     },
+
+    rebalance: function () {
+      if (this.root === null) return null;
+
+      const collectNodeData = function (node) {
+        return node.data;
+      };
+
+      const newTreeArray = this.preorder(collectNodeData);
+      return Tree(newTreeArray);
+    },
   };
   return tree;
 }
@@ -334,11 +345,11 @@ console.log(prettyPrint(tree1.root));
 tree1.insert(100);
 console.log(prettyPrint(tree1.root));
 
-// tree1.insert(101);
-// console.log(prettyPrint(tree1.root));
+tree1.insert(101);
+console.log(prettyPrint(tree1.root));
 
-// tree1.insert(102);
-// console.log(prettyPrint(tree1.root));
+tree1.insert(102);
+console.log(prettyPrint(tree1.root));
 
 tree1.delete(324);
 console.log(prettyPrint(tree1.root));
@@ -379,3 +390,6 @@ console.log(tree1.height(tree1.find(100)));
 console.log(tree1.depth(tree1.find(100)));
 
 console.log(tree1.isBalanced());
+
+const newTree = tree1.rebalance();
+console.log(prettyPrint(newTree.root));
