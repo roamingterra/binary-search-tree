@@ -27,7 +27,7 @@ function Tree(arr) {
     ? buildTree(sortedArr, 0, sortedArr.length - 1)
     : null;
 
-  return {
+  const tree = {
     root: root,
     insert: function (value) {
       let currentNode = this.root;
@@ -113,13 +113,11 @@ function Tree(arr) {
         // Recursive case
         if (value > currentNode.data) {
           if (!currentNode.rightNode) {
-            console.log("Cannot be found");
             return null;
           }
           return searchTree(currentNode.rightNode);
         } else if (value < currentNode.data) {
           if (!currentNode.leftNode) {
-            console.log("Cannot be found");
             return null;
           }
           return searchTree(currentNode.leftNode);
@@ -242,7 +240,30 @@ function Tree(arr) {
 
       return depth;
     },
+
+    isBalanced: function () {
+      let currentNode = this.root;
+      const treeTraversal = function (currentNode) {
+        // Base condition
+        if (currentNode === null) return true;
+        // Compare heights of children
+        const heightLeftChild = tree.height(currentNode.leftNode);
+        const heightRightChild = tree.height(currentNode.rightNode);
+        const heightDifference = Math.abs(heightLeftChild - heightRightChild);
+        if (heightDifference > 1) {
+          console.log("works");
+          return false;
+        }
+        // Recursive conditions
+        return (
+          treeTraversal(currentNode.leftNode) &&
+          treeTraversal(currentNode.rightNode)
+        );
+      };
+      return treeTraversal(currentNode);
+    },
   };
+  return tree;
 }
 
 function removeDuplicates(arr) {
@@ -313,6 +334,12 @@ console.log(prettyPrint(tree1.root));
 tree1.insert(100);
 console.log(prettyPrint(tree1.root));
 
+// tree1.insert(101);
+// console.log(prettyPrint(tree1.root));
+
+// tree1.insert(102);
+// console.log(prettyPrint(tree1.root));
+
 tree1.delete(324);
 console.log(prettyPrint(tree1.root));
 
@@ -347,6 +374,8 @@ console.log(tree1.find(7));
 // );
 // console.log(tree1.find(0));
 
-console.log(tree1.height(tree1.find(4)));
+console.log(tree1.height(tree1.find(100)));
 
 console.log(tree1.depth(tree1.find(100)));
+
+console.log(tree1.isBalanced());
