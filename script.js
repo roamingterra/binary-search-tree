@@ -225,6 +225,23 @@ function Tree(arr) {
 
       return height;
     },
+
+    depth: function (node) {
+      if (node === null) return null;
+      let depth = 0;
+      let currentNode = this.root;
+
+      while (node.data !== currentNode.data) {
+        if (node.data < currentNode.data) {
+          currentNode = currentNode.leftNode;
+        } else if (node.data > currentNode.data) {
+          currentNode = currentNode.rightNode;
+        }
+        depth++;
+      }
+
+      return depth;
+    },
   };
 }
 
@@ -331,3 +348,5 @@ console.log(tree1.find(7));
 // console.log(tree1.find(0));
 
 console.log(tree1.height(tree1.find(4)));
+
+console.log(tree1.depth(tree1.find(100)));
