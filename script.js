@@ -338,58 +338,90 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 // TEST BINARY SEARCH TREE
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+
+// 1. Create a binary search tree from an array of random numbers
+const arr = [
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+  Math.floor(Math.random() * 200),
+];
 const tree1 = Tree(arr);
-console.log(prettyPrint(tree1.root));
 
-tree1.insert(100);
-console.log(prettyPrint(tree1.root));
+// 2. Confirm that the tree is balanced
+console.log("First tree is balanced: " + tree1.isBalanced());
 
-tree1.insert(101);
-console.log(prettyPrint(tree1.root));
+// 3. Print out all elements in level, pre, post, and in order
+console.log(
+  tree1.levelOrder(function (node) {
+    return node.data;
+  })
+);
 
-tree1.insert(102);
-console.log(prettyPrint(tree1.root));
+console.log(
+  tree1.preorder(function (node) {
+    return node.data;
+  })
+);
 
-tree1.delete(324);
-console.log(prettyPrint(tree1.root));
+console.log(
+  tree1.postorder(function (node) {
+    return node.data;
+  })
+);
 
-console.log(tree1.find(7));
+console.log(
+  tree1.inorder(function (node) {
+    return node.data;
+  })
+);
 
-// console.log(
-//   tree1.levelOrder(function (node) {
-//     if (node.data > 10) return true;
-//     else return false;
-//   })
-// );
+// 4. Unbalance the tree by adding several numbers > 100
+tree1.insert(201);
+tree1.insert(202);
+tree1.insert(203);
+tree1.insert(204);
 
-// console.log(
-//   tree1.preorder(function (node) {
-//     if (node.data > 0) return node.data;
-//     else return false;
-//   })
-// );
+// 5. Confirm that the tree is unbalanced
+console.log("First tree is balanced: " + tree1.isBalanced());
 
-// console.log(
-//   tree1.inorder(function (node) {
-//     if (node.data > 0) return node.data;
-//     else return false;
-//   })
-// );
+// 6. Balance the tree
+const tree2 = tree1.rebalance();
 
-// console.log(
-//   tree1.postorder(function (node) {
-//     if (node.data > 0) return node.data;
-//     else return false;
-//   })
-// );
-// console.log(tree1.find(0));
+// 7. Confirm that the tree is balanced
+console.log("Second tree is balanced: " + tree2.isBalanced());
 
-console.log(tree1.height(tree1.find(100)));
+// 8. Print out all elements in level, pre, post, and in order
+console.log(
+  tree2.levelOrder(function (node) {
+    return node.data;
+  })
+);
 
-console.log(tree1.depth(tree1.find(100)));
+console.log(
+  tree2.preorder(function (node) {
+    return node.data;
+  })
+);
 
-console.log(tree1.isBalanced());
+console.log(
+  tree2.postorder(function (node) {
+    return node.data;
+  })
+);
 
-const newTree = tree1.rebalance();
-console.log(prettyPrint(newTree.root));
+console.log(
+  tree2.inorder(function (node) {
+    return node.data;
+  })
+);
