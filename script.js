@@ -35,7 +35,7 @@ function Tree(arr) {
         this.root = Node(value);
         return this.root;
       }
-      if (arr.find((element) => element === value)) {
+      if (this.find(value)) {
         console.log("Already exists in Binary Tree");
         return root;
       } else {
